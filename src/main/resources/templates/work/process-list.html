@@ -1,0 +1,35 @@
+<table xmlns:th="http://www.w3.org/1999/html">
+
+    <form action="deploy" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <input type="submit" value="Submit" class="btn">
+    </form>
+
+    <thead>
+    <tr>
+        <th>流程定义ID</th>
+        <th>部署ID</th>
+        <th>流程定义名称</th>
+        <th>流程定义KEY</th>
+        <th>版本号</th>
+        <th>XML资源名称</th>
+        <th>图片资源名称</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    <thead th:each="pd,userStat : ${processDefinitionList}">
+        <tr>
+            <td th:text="${pd.id}">${pd.id}</td>
+            <td th:text="${pd.deploymentId}">${pd.deploymentId}</td>
+            <td th:text="${pd.name}">${pd.name}</td>
+            <td th:text="${pd.key}">${pd.key}</td>
+            <td th:text="${pd.version}">${pd.version}</td>
+            <!--<td th:text="${pd.resourceName}">${pd.resourceName}</td>-->
+            <td><a target="_blank"   th:href="@{read-resource(pdid=${pd.id},resourceName=${pd.resourceName})}"  th:text="${pd.resourceName}"></a></td>
+            <!--<td th:text="${pd.diagramResourceName}">${pd.diagramResourceName}</td>-->
+            <td><a target="_blank"   th:href="@{read-resource(pdid=${pd.id},resourceName=${pd.diagramResourceName})}"  th:text="${pd.diagramResourceName}"></a></td>
+            <td><a target="_blank"   th:href="@{delete-deployment(deploymentId=${pd.deploymentId})}"  th:text="删除"></a></td>
+        </tr>
+    </thead>
+</table>

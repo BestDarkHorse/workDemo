@@ -29,7 +29,10 @@
             <td><a target="_blank"   th:href="@{read-resource(pdid=${pd.id},resourceName=${pd.resourceName})}"  th:text="${pd.resourceName}"></a></td>
             <!--<td th:text="${pd.diagramResourceName}">${pd.diagramResourceName}</td>-->
             <td><a target="_blank"   th:href="@{read-resource(pdid=${pd.id},resourceName=${pd.diagramResourceName})}"  th:text="${pd.diagramResourceName}"></a></td>
-            <td><a target="_blank"   th:href="@{delete-deployment(deploymentId=${pd.deploymentId})}"  th:text="删除"></a></td>
+            <td>
+                <a target="_blank"   th:href="@{delete-deployment(deploymentId=${pd.deploymentId})}"  th:text="删除"></a>
+                <a target="_blank"   th:href="@{start(processDefinitionId=${pd.id})}"  th:text="启动"></a>
+            </td>
         </tr>
     </thead>
 </table>

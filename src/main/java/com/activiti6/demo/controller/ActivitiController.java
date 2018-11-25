@@ -31,7 +31,7 @@ public class ActivitiController{
     //流程定义列表
     @RequestMapping("/process-list")
     public ModelAndView processList() {
-        ModelAndView mav = new ModelAndView("work/process-list");
+        ModelAndView mav = new ModelAndView("process-list");
         List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
         mav.addObject("processDefinitionList",processDefinitionList);
         return mav;

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/workflow")
 public class ProcessDefinitionController {
@@ -22,5 +25,13 @@ public class ProcessDefinitionController {
         mav.addObject("processDefinitionId",processDefinitionId);
         return mav;
     }
+
+    @RequestMapping("testJsp")
+    public String welcome(Map<String, Object> model){
+        model.put("time", new Date());
+        model.put("message", "你好");
+        return "welcome";
+    }
+
 
 }

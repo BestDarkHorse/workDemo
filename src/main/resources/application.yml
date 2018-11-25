@@ -41,6 +41,11 @@ spring:
     mode: HTML5
     encoding: UTF-8
     cache: false
+    enabled: false
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
   jpa:
     hibernate:
       ddl-auto: update

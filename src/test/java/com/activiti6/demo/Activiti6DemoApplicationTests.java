@@ -47,8 +47,8 @@ public class Activiti6DemoApplicationTests {
 
     @Test
     public void testInsertDB(){
-        DbUnit dbUnit = new DbUnit("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/activiti?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false", "root", "666666");
-        IDataSet dataSet = getDataSet("E:\\WorkSpace\\Practicev\\Activiti6Demo\\src\\main\\resources\\data\\identity-data.xml");
+        DbUnit dbUnit = new DbUnit("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/activiti?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false", "root", "123456");
+        IDataSet dataSet = getDataSet("F:\\practice\\workDemo\\src\\main\\resources\\data\\identity-data.xml");
         try {
             dbUnit.setSchema("");
         } catch (Exception e) {

@@ -1,5 +1,9 @@
 package com.activiti6.demo.controller;
 
+import com.activiti6.demo.service.ActivitiService;
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -10,13 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 @Controller
@@ -30,11 +36,26 @@ public class ActivitiController{
 
     //流程定义列表
     @RequestMapping("/process-list")
-    public ModelAndView processList() {
-        ModelAndView mav = new ModelAndView("process-list");
+    @ResponseBody
+    public String processList() {
+        List<Map<String, Object>> list = Lists.newArrayList();
+        Map<String,Object> map;
         List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
-        mav.addObject("processDefinitionList",processDefinitionList);
-        return mav;
+
+        for (ProcessDefinition pd : processDefinitionList)
+        {
+            map = new HashMap<>();
+            map.put("processDefinitionId", pd.getId());
+            map.put("deploymentId", pd.getDeploymentId());
+            map.put("name", pd.getName());
+            map.put("key", pd.getKey());
+            map.put("version", pd.getVersion());
+            map.put("resourceName", pd.getResourceName());
+            map.put("diagramResourceName", pd.getDiagramResourceName());
+            map.put("deploymentTime", repositoryService.createDeploymentQuery().deploymentId(pd.getDeploymentId()).singleResult().getDeploymentTime());
+            list.add(map);
+        }
+        return JSON.toJSONString(list);
     }
 
     @RequestMapping("/deploy")

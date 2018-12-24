@@ -198,6 +198,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.15</version>
+        </dependency>
+
 
         <!-- servlet依赖. -->
         <!--<dependency>-->

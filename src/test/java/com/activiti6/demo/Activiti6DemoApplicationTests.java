@@ -1,11 +1,13 @@
 package com.activiti6.demo;
 
 import com.activiti6.demo.util.DbUnit;
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
+import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
-import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -22,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 @RunWith(SpringRunner.class)
@@ -400,6 +403,9 @@ public class Activiti6DemoApplicationTests {
 
     /**
      * 根据pdid得到processDefinitionEntity中的activityimpl
+     * <p>
+     * 升级到Activiti6.0.0 之后，发现pvm 包整个被删掉了。。。。这样一来就导致之前的跟踪流失效了。代码连编译都通过不了。
+     * 因为pvm包没了，所以就不能再使用ActivityImpl 等相关类了。只能改成用org.activiti.bpmn.model包下的FlowNode类来替代。好在他们差不多，所以代码改动也不大。下面是完整代码：
      */
     @Test
     public void testGetActivityImpl() {
@@ -407,11 +413,67 @@ public class Activiti6DemoApplicationTests {
         /**
          * 根据pdid获取processDefinitionEntity
          */
-        ProcessDefinitionEntity processDefinitionEntity =(ProcessDefinitionEntity) processEngine.getRepositoryService().getProcessDefinition("shengqing:1:5004");
+        ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) processEngine.getRepositoryService().getProcessDefinition("shengqing:1:5004");
 
-        ProcessDefinitionEntity processDefinition =(ProcessDefinitionEntity) processEngine.getRepositoryService().getProcessDefinition("shengqing:1:5004");
+        BpmnModel bpmnModel = processEngine.getRepositoryService().getBpmnModel("shengqing:1:5004");
+        System.out.println(JSON.toJSONString(bpmnModel));
+    }
 
 
+    /**
+     * 部署流程
+     */
+    @Test
+    public void startDeployTest() {
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        processEngine.getRepositoryService()
+                .createDeployment()
+                .name("请假流程: 情况一")
+                .addClasspathResource("processes/shenqing1.bpmn")
+                .deploy();
+    }
+
+    /**
+     * 启动流程实例
+     * 设置一个流程变量
+     */
+    @Test
+    public void testStartPI() {
+        Map<String, Object> variables = Maps.newHashMap();
+        variables.put("student", "小明");
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        processEngine.getRuntimeService().startProcessInstanceById("shenqing1:1:30004", variables);
+    }
+
+    /**
+     * 在完成请假申请的任务的时候，给班主任审批的节点赋值任务的执行人
+     */
+    @Test
+    public void testFinishTask_Teacher() {
+        Map<String, Object> variables = Maps.newHashMap();
+        variables.put("teacher", "我是小明的班主任");
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        processEngine.getTaskService().complete("32506", variables);
+    }
+
+    /**
+     * 在完成班主任审批的情况下，给教务处节点赋值
+     */
+    @Test
+    public void teatFinishTask_Manager() {
+        Map<String, Object> variables = Maps.newHashMap();
+        variables.put("manager", "我是小明的教务处处长");
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        processEngine.getTaskService().complete("35003",variables);
+    }
+
+    /**
+     * 结束流程实例
+     */
+    @Test
+    public void testFinishTasks() {
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        processEngine.getTaskService().complete("37503");
     }
 
 }

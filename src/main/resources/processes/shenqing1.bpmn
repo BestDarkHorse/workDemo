@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1545633634610" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="shenqing1" isClosed="false" isExecutable="true" name="shenqing1" processType="None">
+    <startEvent id="startEvent" name="StartEvent"/>
+    <userTask activiti:assignee="#{student}" activiti:exclusive="true" id="请假申请" name="请假申请"/>
+    <userTask activiti:exclusive="true" id="班主任" name="班主任">
+      <extensionElements>
+        <activiti:taskListener class="com.activiti6.demo.listener.MyTaskListener" event="create"/>
+      </extensionElements>
+    </userTask>
+    <userTask activiti:assignee="#{manager}" activiti:exclusive="true" id="教务处" name="教务处"/>
+    <endEvent id="endEvent" name="EndEvent"/>
+    <sequenceFlow id="_7" sourceRef="startEvent" targetRef="请假申请"/>
+    <sequenceFlow id="_8" sourceRef="请假申请" targetRef="班主任"/>
+    <sequenceFlow id="_9" sourceRef="班主任" targetRef="教务处"/>
+    <sequenceFlow id="_10" sourceRef="教务处" targetRef="endEvent"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="shenqing1">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="Shape-startEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="305.0" y="70.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="请假申请" id="Shape-请假申请">
+        <omgdc:Bounds height="55.0" width="85.0" x="280.0" y="210.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="班主任" id="Shape-班主任">
+        <omgdc:Bounds height="55.0" width="85.0" x="285.0" y="325.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="教务处" id="Shape-教务处">
+        <omgdc:Bounds height="55.0" width="85.0" x="285.0" y="435.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent" id="Shape-endEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="315.0" y="545.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="startEvent" targetElement="请假申请">
+        <omgdi:waypoint x="321.0" y="102.0"/>
+        <omgdi:waypoint x="321.0" y="210.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="请假申请" targetElement="班主任">
+        <omgdi:waypoint x="325.0" y="265.0"/>
+        <omgdi:waypoint x="325.0" y="325.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_9" id="BPMNEdge__9" sourceElement="班主任" targetElement="教务处">
+        <omgdi:waypoint x="327.5" y="380.0"/>
+        <omgdi:waypoint x="327.5" y="435.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10" id="BPMNEdge__10" sourceElement="教务处" targetElement="endEvent">
+        <omgdi:waypoint x="331.0" y="490.0"/>
+        <omgdi:waypoint x="331.0" y="545.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

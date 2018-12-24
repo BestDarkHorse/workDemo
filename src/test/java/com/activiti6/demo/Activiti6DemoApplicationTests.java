@@ -1,5 +1,6 @@
 package com.activiti6.demo;
 
+import com.activiti6.demo.util.ActivitiUtils;
 import com.activiti6.demo.util.DbUnit;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
@@ -475,5 +476,11 @@ public class Activiti6DemoApplicationTests {
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         processEngine.getTaskService().complete("37503");
     }
+    @Autowired
+    private ActivitiUtils activitiUtils;
 
+    @Test
+    public void testF() {
+
+    }
 }
